@@ -1,0 +1,48 @@
+groups:
+- name: "prometheus"
+  rules:
+    - alert: PrometheusConfigurationReload
+      expr: prometheus_config_last_reload_successful != 1
+      for: 5m
+      labels:
+        severity: error
+      annotations:
+        summary: "Prometheus configuration reload (instance {{ $labels.instance }})"
+        message: "Prometheus configuration reload error\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+    - alert: PrometheusNotConnectedToAlertmanager
+      expr: prometheus_notifications_alertmanagers_discovered < 1
+      for: 5m
+      labels:
+        severity: error
+      annotations:
+        summary: "Prometheus not connected to alertmanager (instance {{ $labels.instance }})"
+        message: "Prometheus cannot connect the alertmanager\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+    - alert: AlertmanagerConfigurationReload
+      expr: alertmanager_config_last_reload_successful != 1
+      for: 5m
+      labels:
+        severity: error
+      annotations:
+        summary: "AlertManager configuration reload (instance {{ $labels.instance }})"
+        message: "AlertManager configuration reload error\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+    - alert: ExporterDown
+      expr: up == 0
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Exporter down (instance {{ $labels.instance }})"
+        message: "Prometheus exporter down\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+    - alert: PrometheusScrapeNoData
+      annotations:
+          summary: "No metrics scraped from instance {{ $labels.instance }} by job {{ $labels.job }}."
+          message: "Scrape job {{ $labels.job }} got no metrics from exporter {{ $labels.instance }} in last 15 minutes."
+      expr: |
+        scrape_samples_scraped == 0
+      for: 15m
+      labels:
+        severity: warning

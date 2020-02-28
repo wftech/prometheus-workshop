@@ -14,7 +14,7 @@
 - name: Install Prometheus
   yum:
     name:
-      - prometheus
+      - prometheus2
       - alertmanager
     state: present
 
@@ -22,13 +22,23 @@
   template:
     src: prometheus.yml
     dest: /etc/prometheus/prometheus.yml
-    validate: promtool check-config %s
+    validate: promtool check config %s
+  notify: Restart Prometheus
+
+- name: Provide Prometheus rules
+  copy:
+    src: '{{ item }}'
+    dest: '/etc/prometheus/rules/{{ item|basename }}'
+    validate: promtool check rules %s
+  with_fileglob: ./files/rules/*.yml
   notify: Restart Prometheus
 
 - name: Create config directory
   file:
     path: /etc/prometheus/files
     state: directory
+
+
 
 - name: Start Prometheus
   service:

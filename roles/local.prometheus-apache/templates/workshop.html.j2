@@ -6,6 +6,7 @@
     <li><a href="http://{{ ansible_fqdn }}:9090/">Prometheus graph page</a></li>
     <li><a href="http://{{ ansible_fqdn }}:9100/">Node exporter</a></li>
     <li><a href="http://{{ ansible_fqdn }}:9117/">Apache exporter</a> (to be setup)</li>
+    <li><a href="http://{{ ansible_fqdn }}:3001/">Grafana</a> (to be setup)</li>
 </ul>
 
 <hr >
@@ -74,12 +75,22 @@
 
 <hr>
 
-<h3>Extra tasks:</h3>
+<h3>Task 4 - check alerts</h3>
 
-<h4>Add recording rule</h4>
+
+<ul>
+    <li>Stop Apache Exporter</li>
+    <li>Check in Prometheus web <b>Alert<b>, that the exporter is down</li>
+    <li>Recording rules should be placed to <tt>/etc/prometheus/rules/</tt>
+    </li>
+</ul>
+
+<hr>
+
+<p>Extra tas</p>
 
 <h4>Add Grafana</h4>
 
 <p>Grafana can be started on
-    <a href="http://{{ ansible_fqdn }}:3000/">port 3000</a>
+    <a href="http://{{ ansible_fqdn }}:3000/">port 3000</a>.
 </p>

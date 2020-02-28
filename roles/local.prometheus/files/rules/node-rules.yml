@@ -1,0 +1,11 @@
+groups:
+  - name: Prometheus rules
+    rules:
+      - alert: PrometheusRulesFailed
+        annotations:
+          message: "Prometheus instance {{ $labels.instance }}  failed to evaluate {{ $value }} rules in last 15 minutes."
+        expr: sum by (instance,job) (increase(prometheus_rule_evaluation_failures_total[5m])) > 0
+        for: 15m
+        labels:
+          severity: warning
+
