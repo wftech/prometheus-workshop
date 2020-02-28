@@ -25,6 +25,15 @@
     validate: promtool check config %s
   notify: Restart Prometheus
 
+- name: Create config directories
+  file:
+    path: '{{ item }}'
+    state: directory
+  loop:
+    - /etc/prometheus/files
+    - /etc/prometheus/rules
+
+
 - name: Provide Prometheus rules
   copy:
     src: '{{ item }}'
@@ -37,7 +46,6 @@
   file:
     path: /etc/prometheus/files
     state: directory
-
 
 
 - name: Start Prometheus
