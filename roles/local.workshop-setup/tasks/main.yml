@@ -1,0 +1,44 @@
+- name: Install epel
+  yum: name=epel-release state=installed
+  when: ansible_distribution == "CentOS"
+
+- name: Install needed packages
+  package:
+    name:
+      - vim
+      - git
+      - psmisc
+      - tmux
+      - tree
+      - mosh
+      - jq
+
+    state: present
+
+- name: Install cowsay
+  package:
+    name: cowsay
+    state: installed
+  when: install_cowsay|default(True)
+
+- name: Enable password auth
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    line: "PasswordAuthentication yes"
+    regexp: "^PasswordAuthentication"
+  notify: "restart ssh"
+
+- name: Create user ansible with password XXX
+  user:
+    name: '{{ workshop_user }}'
+    comment: "Ansible"
+    password: "{{ workshop_password|password_hash('sha512', 65534|random(seed=inventory_hostname)|string) }}"
+    createhome: yes
+    shell: /bin/bash
+
+- name: Add ansible to sudoers
+  copy:
+    content: "{{ workshop_user }} ALL=(ALL)       NOPASSWD: ALL\n"
+    dest: /etc/sudoers.d/{{ workshop_user }}
+
+- meta: flush_handlers

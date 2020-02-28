@@ -1,0 +1,54 @@
+- name: Create  grafana repo
+  copy:
+    dest: /etc/yum.repos.d/grafana.repo
+    content: |
+        [grafana]
+        name=grafana
+        baseurl=https://packages.grafana.com/oss/rpm
+        repo_gpgcheck=1
+        enabled=1
+        gpgcheck=1
+        gpgkey=https://packages.grafana.com/gpg.key
+        sslverify=1
+        sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+
+- name: Add grafana
+  yum: 
+     name: grafana
+     state: present
+
+- name: Add Grafana block
+  blockinfile:
+     path: //etc/sysconfig/grafana-server
+     block: | 
+        GF_SERVER_PROTOCOL=http
+        GF_SERVER_HTTP_ADDR=0.0.0.0
+        GF_SERVER_HTTP_PORT=3001
+        GF_SECURITY_ADMIN_USER=workshop
+        GF_SECURITY_ADMIN_PASSWORD=nbusr123
+
+- name: Create grafana provision dir
+  file:
+    path: /etc/grafana/provisioning/datasources/
+    state: directory
+
+- name: Create grafana provision dir
+  file:
+    path: /var/lib/grafana/dashboards
+    state: directory
+
+- name: Provide prometheus datasource
+  template:
+    src: datasource.yml
+    dest: /etc/grafana/provisioning/datasources/datasources.yml
+
+- name: Provide dashboard
+  get_url:
+    url: https://grafana.com/api/dashboards/1860/revisions/16/download
+    dest: /var/lib/grafana/dashboards/node_cpu.json
+
+
+#- name: Start grafana
+#  service:
+#     name: grafana-server
+#     state: started

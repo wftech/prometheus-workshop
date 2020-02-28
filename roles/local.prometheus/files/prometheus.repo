@@ -1,0 +1,9 @@
+[prometheus]
+name=prometheus
+baseurl=
+repo_gpgcheck=1
+enabled=1
+gpgkey=
+
+gpgcheck=1
+metadata_expire=300

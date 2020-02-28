@@ -1,0 +1,30 @@
+
+- name: Install apache and utils
+  yum:
+    name:
+      - httpd
+      - apache_exporter
+    state: present
+
+- name: Enable server-status
+  copy:
+    dest: /etc/httpd/conf.d/server-status.conf
+    content: |
+      <Location "/server-status">
+          SetHandler server-status
+      </Location>
+  notify: Restart Apache
+
+- name: Start apache
+  service:
+    name: httpd
+    state: started
+    enabled: true
+
+- name: Provide HTML page
+  template:
+    src: workshop.html.j2
+    dest: /var/www/html/index.html
+  tags: www
+
+- meta: flush_handlers

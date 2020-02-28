@@ -1,0 +1,85 @@
+<h1>Prometheus workshop</h1>
+
+<b>Useful links:</b>
+
+<ul>
+    <li><a href="http://{{ ansible_fqdn }}:9090/">Prometheus graph page</a></li>
+    <li><a href="http://{{ ansible_fqdn }}:9100/">Node exporter</a></li>
+    <li><a href="http://{{ ansible_fqdn }}:9117/">Apache exporter</a> (to be setup)</li>
+</ul>
+
+<hr >
+
+<h2>Task 1 - Check Prometheus scraping</h2>
+
+<ul>
+    <li>Check Prometheus is running.</li>
+    <li>Check Node exporter is running.</li>
+
+    <li>Find out its config file at <tt>/etc/prometheus</tt></li>
+
+    <li>Find out scrape targets config at <tt>/etc/prometheus</tt></li>
+
+    <li>Check <b>Targets</b> page on Prometheus. It is in Status menu.</li>
+
+    <li>Add another node exporter from <a href="http://demo.on.gpx.cz:9100/">some other host</a></li>
+
+    <li>Check <b>Targets</b> page again.</li>
+</ul>
+
+<hr >
+
+<h2>Task 2 - Get some metrics from Prometheus</h2>
+
+<ul>
+    <li>Find out CPU times on the node
+                <br><tt>node_cpu_seconds_total</tt>
+    </li>
+
+    <li>Show the graph.</li>
+
+    <li>Show the graph with rate<br />
+            rate(node_cpu_seconds_total[1m])
+    </li>
+
+    <li>Filter out <i>idle</i><br />
+            <tt>rate(node_cpu_seconds_total{mode="idle"}[1m])</tt>
+    </li>
+
+
+    <li>Get CPU usage as <i>idle / total_time</i><br />
+        <tt>1 - sum by (instance) (rate(node_cpu_seconds_total{mode="idle"}[1m])) /  sum by (instance) (rate(node_cpu_seconds_total[1m]))</tt>
+    </li>
+
+    <li>Select as percentage <br>
+            <tt>100 - sum by (instance) (rate(node_cpu_seconds_total{mode="idle"}[1m])) /  sum by (instance) (rate(node_cpu_seconds_total[1m])) * 100</tt>
+    </li>
+
+
+</ul>
+
+<hr >
+
+<h2>Task 3 - Add Apache exporter</h2>
+
+<ul>
+    <li>Enable Apache exporter (check on <a href="http://{{ ansible_fqdn }}:9117/">Apache exporter</a>)</>
+    <li>Add the Apache exporter to Prometheus</li>
+    <li>Play with the metrics</li>
+    <li>Check Apache exporter is up<br>
+        <tt>up</tt></li>
+    <li>Lookup some metrics</li>
+</ul>
+
+
+<hr>
+
+<h3>Extra tasks:</h3>
+
+<h4>Add recording rule</h4>
+
+<h4>Add Grafana</h4>
+
+<p>Grafana can be started on
+    <a href="http://{{ ansible_fqdn }}:3000/">port 3000</a>
+</p>

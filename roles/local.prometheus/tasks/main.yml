@@ -1,0 +1,39 @@
+
+- name: Use prometheus repo
+  yum_repository:
+      name: prometheus
+      description: Prometheus
+      file: prometheus
+      baseurl: https://packagecloud.io/prometheus-rpm/release/el/$releasever/$basearch
+      enabled: yes
+      gpgcheck: yes
+      gpgkey:
+        - https://packagecloud.io/prometheus-rpm/release/gpgkey
+        - https://raw.githubusercontent.com/lest/prometheus-rpm/master/RPM-GPG-KEY-prometheus-rpm
+
+- name: Install Prometheus
+  yum:
+    name:
+      - prometheus
+      - alertmanager
+    state: present
+
+- name: Provide Prometheus basic config
+  template:
+    src: prometheus.yml
+    dest: /etc/prometheus/prometheus.yml
+    validate: promtool check-config %s
+  notify: Restart Prometheus
+
+- name: Create config directory
+  file:
+    path: /etc/prometheus/files
+    state: directory
+
+- name: Start Prometheus
+  service:
+    name: prometheus
+    state: started
+    enabled: true
+
+- meta: flush_handlers

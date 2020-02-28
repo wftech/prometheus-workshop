@@ -1,0 +1,14 @@
+
+- name: Prepare prometheus workshop
+  hosts: all
+
+  roles:
+    - role: local.workshop-setup
+    - role: local.prometheus
+    - role: local.prometheus-node-exporter
+
+      # Install prometheus-apache
+    - role: local.prometheus-apache
+
+      # Add Grafana (to use extra time)
+    - role: local.grafana

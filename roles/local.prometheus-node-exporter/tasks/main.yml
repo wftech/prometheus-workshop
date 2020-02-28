@@ -1,0 +1,16 @@
+
+- name: Install node-exporter
+  yum:
+    name: node_exporter
+    state: present
+
+- name: Start Node-exporter
+  service:
+    name: node_exporter
+    state: started
+    enabled: true
+
+- name: Provide node_exporter setup
+  template:
+    src: node-exporter.yml
+    dest: /etc/prometheus/files/node.yml
