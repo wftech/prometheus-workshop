@@ -44,7 +44,7 @@
 
 - name: Provide dashboard
   get_url:
-    url: https://grafana.com/api/dashboards/1860/revisions/16/download
+    url: https://grafana.com/api/dashboards/405/revisions/8/download
     dest: /var/lib/grafana/dashboards/node_cpu.json
 
 
