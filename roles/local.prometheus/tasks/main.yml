@@ -33,7 +33,6 @@
     - /etc/prometheus/files
     - /etc/prometheus/rules
 
-
 - name: Provide Prometheus rules
   copy:
     src: '{{ item }}'
