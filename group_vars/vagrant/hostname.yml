@@ -1,0 +1,1 @@
+visible_hostname: '{{ ansible_eth1.ipv4.address }}'

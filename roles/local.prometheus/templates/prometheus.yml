@@ -22,7 +22,7 @@ scrape_configs:
     # scheme defaults to 'http'.
 
     static_configs:
-      - targets: ['{{ ansible_fqdn }}:9090']
+      - targets: ['{{ visible_hostname }}:9090']
 
   - job_name: static_configs
     file_sd_configs:

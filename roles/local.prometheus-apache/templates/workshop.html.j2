@@ -3,10 +3,10 @@
 <b>Useful links:</b>
 
 <ul>
-    <li><a href="http://{{ ansible_fqdn }}:9090/">Prometheus graph page</a></li>
-    <li><a href="http://{{ ansible_fqdn }}:9100/">Node exporter</a></li>
-    <li><a href="http://{{ ansible_fqdn }}:9117/">Apache exporter</a> (to be setup)</li>
-    <li><a href="http://{{ ansible_fqdn }}:3001/">Grafana</a> (to be setup)</li>
+    <li><a href="http://{{ visible_hostname }}:9090/">Prometheus graph page</a></li>
+    <li><a href="http://{{ visible_hostname }}:9100/">Node exporter</a></li>
+    <li><a href="http://{{ visible_hostname }}:9117/">Apache exporter</a> (to be setup)</li>
+    <li><a href="http://{{ visible_hostname }}:3001/">Grafana</a> (to be setup)</li>
 </ul>
 <ul>
     <li><a href="https://prometheus.io/docs/prometheus/latest/querying/examples/">Prometheus examples</a></li>
@@ -68,7 +68,7 @@
 <h2>Task 3 - Add Apache exporter</h2>
 
 <ul>
-    <li>Enable Apache exporter (check on <a href="http://{{ ansible_fqdn }}:9117/">Apache exporter</a>)</>
+    <li>Enable Apache exporter (check on <a href="http://{{ visible_hostname }}:9117/">Apache exporter</a>)</>
     <li>Add the Apache exporter to Prometheus</li>
     <li>Play with the metrics</li>
     <li>Check Apache exporter is up<br>
@@ -97,7 +97,7 @@
 
 <ul>
     <li>Grafana is installed on the machine, it can be started with <tt>systemctl start grafana-server</tt>.</li>
-    <li>Grafana should be running on <a href="http://{{ ansible_fqdn }}:3001/">port 3001</a>.  </li>
-    <li>Import dashboard from <a href="http://{{ ansible_fqdn }}:3001/dashboard/import">Import page</a>.  <br />
+    <li>Grafana should be running on <a href="http://{{ visible_hostname }}:3001/">port 3001</a>.  </li>
+    <li>Import dashboard from <a href="http://{{ visible_hostname }}:3001/dashboard/import">Import page</a>.  <br />
         Dashbord to Import is <a href="https://grafana.com/grafana/dashboards/405">#405 - Node exporter</a></li>
 </ul>

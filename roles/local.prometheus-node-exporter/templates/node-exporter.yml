@@ -1,5 +1,5 @@
 - targets:
-    - '{{ ansible_fqdn }}:9100'
+    - '{{ visible_hostname }}:9100'
   labels:
-        instance: '{{ ansible_fqdn }}'
+      environment: 'workshop'
 #      job: node

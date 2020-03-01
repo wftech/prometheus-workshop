@@ -1,5 +1,0 @@
-- targets:
-    - '{{ ansible_fqdn }}:9100'
-  labels:
-        instance: '{{ ansible_fqdn }}'
-#      job: node

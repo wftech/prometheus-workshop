@@ -4,5 +4,5 @@ datasources:
     isDefault: false
     name: prometheus
     type: prometheus
-    url: http://{{ ansible_fqdn }}:9090
+    url: http://{{ visible_hostname }}:9090
     version: 1
